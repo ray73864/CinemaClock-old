@@ -97,8 +97,8 @@ namespace CinemaClockJSON
         private void clockTimer_Tick(object sender, EventArgs e)
         {
             pnlClock.Invalidate();
-            pnlTopText.Invalidate();
-            pnlBottomText.Invalidate();
+            if (settings.TopOnColour1 != settings.TopOffColour1) { pnlTopText.Invalidate(); }
+            if (settings.BottomOnColour1 != settings.BottomOffColour1) { pnlBottomText.Invalidate(); }
             lblBatteryPercent.Text = battery.getBatteryCharge().ToString() + "%";
             lblChargerStatus.Text = battery.getPowerStatus();
         }
