@@ -104,25 +104,6 @@ namespace CinemaClockJSON
         [RestRoute(Method = HttpMethod.GET, PathInfo = @"^/profiles(.*)?$")]
         public void HandleProfilesList(HttpListenerContext context)
         {
-            /*
-            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(@"profiles");
-
-            DirectoryInfo[] dirs = dir.GetDirectories();
-            FileInfo[] files = dir.GetFiles();
-
-            List<Profile> profiles = new List<Profile>();
-
-            foreach (FileInfo file in files)
-            {
-                ClockSettings clock = JsonConvert.DeserializeObject<ClockSettings>(File.ReadAllText(@"profiles\" + file.Name));
-
-                Profile profile = new Profile {
-                    profileName = clock.ProfileName
-                };
-
-                profiles.Add(profile);
-            }
-            */
             string json = JsonConvert.SerializeObject(_myClockDisplay.cps.Profiles, Formatting.Indented);
 
             context.Response.AppendHeader("Access-Control-Allow-Origin", "*");
