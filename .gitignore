@@ -213,3 +213,9 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+*.config
+*.dll
+packages/Grapevine.2.7.1/Grapevine.2.7.1.nupkg
+CinemaClockJSON1/Newtonsoft.Json.dll
+CinemaClockJSON1/Newtonsoft.Json.dll
+*.dll

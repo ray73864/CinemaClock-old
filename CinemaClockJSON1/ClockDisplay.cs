@@ -8,26 +8,136 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
+using System.Reflection;
 using Newtonsoft.Json;
+using Grapevine;
 
 namespace CinemaClockJSON
 {
     public partial class ClockDisplay : Form
     {
-        ClockSettings settings = new ClockSettings();
+        public ClockProfileState cps = new ClockProfileState();
+        public ClockSettings settings;
+        ClockConfig myConfig;
+        public static ClockRestServer clockRestServer = new ClockRestServer();
         Battery battery = new Battery();
         int i = 0;
         int j = 0;
+        public static HttpListener server = new HttpListener();
+        public static string startUpPath = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        public static string webRoot = "\\webroot\\";
+        Thread webServerThread, restServerThread;
+        
 
         public ClockDisplay()
         {
             InitializeComponent();
+
+            clockTimer.Enabled = false;
+
+            /* Preload all json profiles */
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(@"profiles");
+
+            DirectoryInfo[] dirs = dir.GetDirectories();
+            FileInfo[] files = dir.GetFiles();
+
+            foreach (FileInfo file in files)
+            {
+                ClockSettings clock = JsonConvert.DeserializeObject<ClockSettings>(File.ReadAllText(@"profiles\" + file.Name));
+
+                try
+                {
+                    cps.Profiles.Add(new ClockProfiles(clock.ProfileName, clock));
+                }
+                catch (NullReferenceException nre) {  }
+            }
+
+            cps.LoadedProfile = cps.Profiles[0].ProfileSettings;
+            settings = cps.LoadedProfile;
+
+            /* Start the Web Server */
+            /* Prepare the HttpListener */
+            server.Prefixes.Add("http://localhost:80/");
+            server.Start();
+
+            webServerThread = new Thread(new ThreadStart(webClientListener));
+            webServerThread.Start();
+
+            clockRestServer.myClockDisplay = this;
+            clockRestServer.myClockConfig = myConfig;
+
+            clockRestServer.Start();
+            clockRestServer.WebRoot = startUpPath + webRoot;
+
+            restServerThread = new Thread(new ThreadStart(restClientListener));
+            restServerThread.Start();
+
+            clockTimer.Enabled = true;
+
             pnlClock.Invalidate();
+        }
+
+        public static void restClientListener()
+        {
+            while (clockRestServer.IsListening)
+            {
+                Thread.Sleep(3000);
+            }
+
+            clockRestServer.Stop();
+        }
+
+        public static void webClientListener()
+        {
+            while (true)
+            {
+                try
+                {
+                    HttpListenerContext request = server.GetContext();
+                    ThreadPool.QueueUserWorkItem(processWebRequest, request);
+                }
+                catch (Exception e) {  }
+            }
+        }
+
+        public static void processWebRequest(object listenerContext)
+        {
+            try
+            {
+                var context = (HttpListenerContext)listenerContext;
+                string filename = context.Request.RawUrl;
+
+                if ( filename.Equals("/") ) { filename = "index.html"; }
+
+                filename = filename.Replace("/", "\\");
+                //string path = Path.Combine(startUpPath + webRoot, filename);
+                string path = startUpPath + webRoot + filename;
+                byte[] msg;
+
+                if (!File.Exists(path))
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    msg = File.ReadAllBytes(startUpPath + webRoot + "error.html");
+                }
+                else
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.OK;
+                    msg = File.ReadAllBytes(path);
+                }
+
+                context.Response.ContentLength64 = msg.Length;
+                using (Stream s = context.Response.OutputStream)
+                    s.Write(msg, 0, msg.Length);
+            }
+            catch {  }
         }
 
         private void btnConfig_Click(object sender, EventArgs e)
         {
-            ClockConfig myConfig = new ClockConfig(this, "test");
+            myConfig = new ClockConfig(this, "test");
             myConfig.ShowDialog();
             myConfig.Dispose();
 
@@ -111,6 +221,10 @@ namespace CinemaClockJSON
 
         private void button1_Click(object sender, EventArgs e)
         {
+            webServerThread.Abort();
+            restServerThread.Abort();
+            clockRestServer.Stop();
+            server.Stop();
             this.Close();
         }
 

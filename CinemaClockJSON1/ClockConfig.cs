@@ -34,6 +34,8 @@ namespace CinemaClockJSON
             //listView1.Items[display.clockSettingsBindingSource.
         }
 
+        
+
         public void HandlePropertyChanged(object sender, EventArgs eventArgs)
         {
             string json = JsonConvert.SerializeObject(loadedClock, Formatting.Indented);

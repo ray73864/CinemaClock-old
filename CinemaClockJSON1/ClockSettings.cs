@@ -7,7 +7,36 @@ using System.ComponentModel;
 
 namespace CinemaClockJSON
 {
-    class ClockSettings : INotifyPropertyChanged
+    public class ClockProfileState
+    {
+        private List<ClockProfiles> profiles;
+        private ClockSettings loadedProfile;
+
+        public ClockProfileState()
+        {
+            profiles = new List<ClockProfiles>();
+        }
+
+        public List<ClockProfiles> Profiles { set { this.profiles = value; } get { return this.profiles; } }
+        public ClockSettings LoadedProfile { set { this.loadedProfile = value; } get { return this.loadedProfile;  } }
+    }
+
+    public class ClockProfiles
+    {
+        private string profileName;
+        private ClockSettings profileSettings;
+
+        public ClockProfiles(string profileName, ClockSettings profileSettings)
+        {
+            this.profileName = profileName;
+            this.profileSettings = profileSettings;
+        }
+
+        public string ProfileName { set { this.profileName = value; } get { return this.profileName; } }
+        public ClockSettings ProfileSettings { set { this.profileSettings = value; } get { return this.profileSettings; } }
+    }
+
+    public class ClockSettings : INotifyPropertyChanged
     {
         private string profileName = "Default";
         private string topText = "Rural Cinema";
