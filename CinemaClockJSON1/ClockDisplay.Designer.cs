@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.btnConfig = new System.Windows.Forms.Button();
             this.clockTimer = new System.Windows.Forms.Timer(this.components);
             this.lblSeconds = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -60,19 +59,6 @@
             this.pnlMainDisplay.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.clockSettingsBindingSource)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btnConfig
-            // 
-            this.btnConfig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnConfig.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConfig.ForeColor = System.Drawing.Color.DarkRed;
-            this.btnConfig.Location = new System.Drawing.Point(343, 3);
-            this.btnConfig.Name = "btnConfig";
-            this.btnConfig.Size = new System.Drawing.Size(40, 36);
-            this.btnConfig.TabIndex = 1;
-            this.btnConfig.Text = "C";
-            this.btnConfig.UseVisualStyleBackColor = true;
-            this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
             // 
             // clockTimer
             // 
@@ -109,7 +95,7 @@
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.ForeColor = System.Drawing.Color.DarkRed;
-            this.button2.Location = new System.Drawing.Point(297, 3);
+            this.button2.Location = new System.Drawing.Point(343, 3);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(40, 36);
             this.button2.TabIndex = 7;
@@ -125,7 +111,6 @@
             this.pnlFormControls.Controls.Add(this.btnSetupScope);
             this.pnlFormControls.Controls.Add(this.btnSetupWide);
             this.pnlFormControls.Controls.Add(this.btnSetupStd);
-            this.pnlFormControls.Controls.Add(this.btnConfig);
             this.pnlFormControls.Controls.Add(this.button1);
             this.pnlFormControls.Controls.Add(this.button2);
             this.pnlFormControls.Location = new System.Drawing.Point(589, 3);
@@ -345,6 +330,7 @@
             this.Name = "ClockDisplay";
             this.Text = "ClockDisplay";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ClockDisplay_FormClosing);
             this.pnlFormControls.ResumeLayout(false);
             this.pnlTopControls.ResumeLayout(false);
             this.pnlTopControls.PerformLayout();
@@ -360,7 +346,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnConfig;
         public System.Windows.Forms.BindingSource clockSettingsBindingSource;
         private System.Windows.Forms.Timer clockTimer;
         private System.Windows.Forms.Label lblSeconds;
