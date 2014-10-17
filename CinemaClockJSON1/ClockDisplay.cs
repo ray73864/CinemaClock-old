@@ -332,6 +332,7 @@ namespace CinemaClockJSON
 
         private void clockTimer_Tick(object sender, EventArgs e)
         {
+            /* Not really the best place to do these 5 tasks, but for now it will have to suffice */
             pnlFormControls.Visible = clockAppConfig.ShowTopBar;
             pnlPowerpoint.Visible = clockAppConfig.ShowTopBar;
             pnlSetupSlides.Visible = clockAppConfig.ShowTopBar;
