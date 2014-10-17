@@ -34,19 +34,21 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.pnlFormControls = new System.Windows.Forms.Panel();
-            this.btnVideo = new System.Windows.Forms.Button();
+            this.btnConfigForm = new System.Windows.Forms.Button();
+            this.pnlTopControls = new System.Windows.Forms.Panel();
+            this.pnlSetupSlides = new System.Windows.Forms.Panel();
             this.btnSetupScope = new System.Windows.Forms.Button();
             this.btnSetupWide = new System.Windows.Forms.Button();
             this.btnSetupStd = new System.Windows.Forms.Button();
-            this.pnlTopControls = new System.Windows.Forms.Panel();
+            this.lblServerIP2 = new System.Windows.Forms.LinkLabel();
+            this.lblServerIP = new System.Windows.Forms.Label();
             this.pnlBatteryInfo = new System.Windows.Forms.Panel();
             this.lblChargerStatus = new System.Windows.Forms.Label();
             this.lblBatteryPercent = new System.Windows.Forms.Label();
             this.pnlPowerpoint = new System.Windows.Forms.Panel();
-            this.btnPlay2 = new System.Windows.Forms.Button();
-            this.btnEdit2 = new System.Windows.Forms.Button();
-            this.btnPlay1 = new System.Windows.Forms.Button();
-            this.btnEdit = new System.Windows.Forms.Button();
+            this.btnEditPresentation = new System.Windows.Forms.Button();
+            this.btnPlayPresentation = new System.Windows.Forms.Button();
+            this.comboPresentations = new System.Windows.Forms.ComboBox();
             this.pnlMainDisplay = new System.Windows.Forms.Panel();
             this.pnlTopText = new System.Windows.Forms.Panel();
             this.pnlClock = new System.Windows.Forms.Panel();
@@ -54,6 +56,7 @@
             this.clockSettingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.pnlFormControls.SuspendLayout();
             this.pnlTopControls.SuspendLayout();
+            this.pnlSetupSlides.SuspendLayout();
             this.pnlBatteryInfo.SuspendLayout();
             this.pnlPowerpoint.SuspendLayout();
             this.pnlMainDisplay.SuspendLayout();
@@ -82,7 +85,7 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.DarkRed;
-            this.button1.Location = new System.Drawing.Point(389, 3);
+            this.button1.Location = new System.Drawing.Point(96, 4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(40, 36);
             this.button1.TabIndex = 6;
@@ -95,7 +98,7 @@
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.ForeColor = System.Drawing.Color.DarkRed;
-            this.button2.Location = new System.Drawing.Point(343, 3);
+            this.button2.Location = new System.Drawing.Point(50, 4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(40, 36);
             this.button2.TabIndex = 7;
@@ -106,72 +109,32 @@
             // pnlFormControls
             // 
             this.pnlFormControls.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlFormControls.AutoSize = true;
-            this.pnlFormControls.Controls.Add(this.btnVideo);
-            this.pnlFormControls.Controls.Add(this.btnSetupScope);
-            this.pnlFormControls.Controls.Add(this.btnSetupWide);
-            this.pnlFormControls.Controls.Add(this.btnSetupStd);
+            this.pnlFormControls.Controls.Add(this.btnConfigForm);
             this.pnlFormControls.Controls.Add(this.button1);
             this.pnlFormControls.Controls.Add(this.button2);
-            this.pnlFormControls.Location = new System.Drawing.Point(589, 3);
+            this.pnlFormControls.Location = new System.Drawing.Point(880, 3);
             this.pnlFormControls.Name = "pnlFormControls";
-            this.pnlFormControls.Size = new System.Drawing.Size(432, 45);
+            this.pnlFormControls.Size = new System.Drawing.Size(141, 45);
             this.pnlFormControls.TabIndex = 8;
             // 
-            // btnVideo
+            // btnConfigForm
             // 
-            this.btnVideo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnVideo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnVideo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnVideo.ForeColor = System.Drawing.Color.DarkRed;
-            this.btnVideo.Location = new System.Drawing.Point(3, 3);
-            this.btnVideo.Name = "btnVideo";
-            this.btnVideo.Size = new System.Drawing.Size(67, 36);
-            this.btnVideo.TabIndex = 19;
-            this.btnVideo.Text = "Video";
-            this.btnVideo.UseVisualStyleBackColor = true;
-            // 
-            // btnSetupScope
-            // 
-            this.btnSetupScope.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSetupScope.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSetupScope.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSetupScope.ForeColor = System.Drawing.Color.DarkRed;
-            this.btnSetupScope.Location = new System.Drawing.Point(188, 3);
-            this.btnSetupScope.Name = "btnSetupScope";
-            this.btnSetupScope.Size = new System.Drawing.Size(75, 36);
-            this.btnSetupScope.TabIndex = 18;
-            this.btnSetupScope.Text = "2.35:1";
-            this.btnSetupScope.UseVisualStyleBackColor = true;
-            // 
-            // btnSetupWide
-            // 
-            this.btnSetupWide.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSetupWide.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSetupWide.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSetupWide.ForeColor = System.Drawing.Color.DarkRed;
-            this.btnSetupWide.Location = new System.Drawing.Point(128, 3);
-            this.btnSetupWide.Name = "btnSetupWide";
-            this.btnSetupWide.Size = new System.Drawing.Size(54, 36);
-            this.btnSetupWide.TabIndex = 17;
-            this.btnSetupWide.Text = "9:16";
-            this.btnSetupWide.UseVisualStyleBackColor = true;
-            // 
-            // btnSetupStd
-            // 
-            this.btnSetupStd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSetupStd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSetupStd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSetupStd.ForeColor = System.Drawing.Color.DarkRed;
-            this.btnSetupStd.Location = new System.Drawing.Point(76, 3);
-            this.btnSetupStd.Name = "btnSetupStd";
-            this.btnSetupStd.Size = new System.Drawing.Size(46, 36);
-            this.btnSetupStd.TabIndex = 16;
-            this.btnSetupStd.Text = "4:3";
-            this.btnSetupStd.UseVisualStyleBackColor = true;
+            this.btnConfigForm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConfigForm.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConfigForm.ForeColor = System.Drawing.Color.DarkRed;
+            this.btnConfigForm.Location = new System.Drawing.Point(4, 4);
+            this.btnConfigForm.Name = "btnConfigForm";
+            this.btnConfigForm.Size = new System.Drawing.Size(40, 36);
+            this.btnConfigForm.TabIndex = 8;
+            this.btnConfigForm.Text = "C";
+            this.btnConfigForm.UseVisualStyleBackColor = true;
+            this.btnConfigForm.Click += new System.EventHandler(this.btnConfigForm_Click);
             // 
             // pnlTopControls
             // 
+            this.pnlTopControls.Controls.Add(this.pnlSetupSlides);
+            this.pnlTopControls.Controls.Add(this.lblServerIP2);
+            this.pnlTopControls.Controls.Add(this.lblServerIP);
             this.pnlTopControls.Controls.Add(this.pnlBatteryInfo);
             this.pnlTopControls.Controls.Add(this.pnlPowerpoint);
             this.pnlTopControls.Controls.Add(this.pnlFormControls);
@@ -180,6 +143,85 @@
             this.pnlTopControls.Name = "pnlTopControls";
             this.pnlTopControls.Size = new System.Drawing.Size(1024, 100);
             this.pnlTopControls.TabIndex = 9;
+            // 
+            // pnlSetupSlides
+            // 
+            this.pnlSetupSlides.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlSetupSlides.Controls.Add(this.btnSetupScope);
+            this.pnlSetupSlides.Controls.Add(this.btnSetupWide);
+            this.pnlSetupSlides.Controls.Add(this.btnSetupStd);
+            this.pnlSetupSlides.Location = new System.Drawing.Point(589, 3);
+            this.pnlSetupSlides.Name = "pnlSetupSlides";
+            this.pnlSetupSlides.Size = new System.Drawing.Size(285, 45);
+            this.pnlSetupSlides.TabIndex = 24;
+            // 
+            // btnSetupScope
+            // 
+            this.btnSetupScope.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSetupScope.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSetupScope.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSetupScope.ForeColor = System.Drawing.Color.DarkRed;
+            this.btnSetupScope.Location = new System.Drawing.Point(184, 4);
+            this.btnSetupScope.Name = "btnSetupScope";
+            this.btnSetupScope.Size = new System.Drawing.Size(75, 36);
+            this.btnSetupScope.TabIndex = 22;
+            this.btnSetupScope.Text = "2.35:1";
+            this.btnSetupScope.UseVisualStyleBackColor = true;
+            this.btnSetupScope.Click += new System.EventHandler(this.btnSetupScope_Click);
+            // 
+            // btnSetupWide
+            // 
+            this.btnSetupWide.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSetupWide.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSetupWide.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSetupWide.ForeColor = System.Drawing.Color.DarkRed;
+            this.btnSetupWide.Location = new System.Drawing.Point(105, 4);
+            this.btnSetupWide.Name = "btnSetupWide";
+            this.btnSetupWide.Size = new System.Drawing.Size(75, 36);
+            this.btnSetupWide.TabIndex = 21;
+            this.btnSetupWide.Text = "1.75:1";
+            this.btnSetupWide.UseVisualStyleBackColor = true;
+            this.btnSetupWide.Click += new System.EventHandler(this.btnSetupWide_Click);
+            // 
+            // btnSetupStd
+            // 
+            this.btnSetupStd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSetupStd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSetupStd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSetupStd.ForeColor = System.Drawing.Color.DarkRed;
+            this.btnSetupStd.Location = new System.Drawing.Point(26, 4);
+            this.btnSetupStd.Name = "btnSetupStd";
+            this.btnSetupStd.Size = new System.Drawing.Size(75, 36);
+            this.btnSetupStd.TabIndex = 20;
+            this.btnSetupStd.Text = "1.33:1";
+            this.btnSetupStd.UseVisualStyleBackColor = true;
+            this.btnSetupStd.Click += new System.EventHandler(this.btnSetupStd_Click);
+            // 
+            // lblServerIP2
+            // 
+            this.lblServerIP2.ActiveLinkColor = System.Drawing.Color.DarkRed;
+            this.lblServerIP2.AutoSize = true;
+            this.lblServerIP2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblServerIP2.LinkColor = System.Drawing.Color.DarkRed;
+            this.lblServerIP2.Location = new System.Drawing.Point(211, 56);
+            this.lblServerIP2.Name = "lblServerIP2";
+            this.lblServerIP2.Size = new System.Drawing.Size(35, 15);
+            this.lblServerIP2.TabIndex = 23;
+            this.lblServerIP2.TabStop = true;
+            this.lblServerIP2.Text = "URL";
+            this.lblServerIP2.VisitedLinkColor = System.Drawing.Color.DarkRed;
+            this.lblServerIP2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblServerIP2_LinkClicked);
+            // 
+            // lblServerIP
+            // 
+            this.lblServerIP.AutoSize = true;
+            this.lblServerIP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblServerIP.ForeColor = System.Drawing.Color.DarkRed;
+            this.lblServerIP.Location = new System.Drawing.Point(77, 54);
+            this.lblServerIP.Name = "lblServerIP";
+            this.lblServerIP.Size = new System.Drawing.Size(128, 15);
+            this.lblServerIP.TabIndex = 22;
+            this.lblServerIP.Text = "Server Listening @";
             // 
             // pnlBatteryInfo
             // 
@@ -216,62 +258,52 @@
             // 
             // pnlPowerpoint
             // 
-            this.pnlPowerpoint.Controls.Add(this.btnPlay2);
-            this.pnlPowerpoint.Controls.Add(this.btnEdit2);
-            this.pnlPowerpoint.Controls.Add(this.btnPlay1);
-            this.pnlPowerpoint.Controls.Add(this.btnEdit);
+            this.pnlPowerpoint.Controls.Add(this.btnEditPresentation);
+            this.pnlPowerpoint.Controls.Add(this.btnPlayPresentation);
+            this.pnlPowerpoint.Controls.Add(this.comboPresentations);
             this.pnlPowerpoint.Location = new System.Drawing.Point(0, 0);
             this.pnlPowerpoint.Name = "pnlPowerpoint";
             this.pnlPowerpoint.Size = new System.Drawing.Size(580, 48);
             this.pnlPowerpoint.TabIndex = 21;
             // 
-            // btnPlay2
+            // btnEditPresentation
             // 
-            this.btnPlay2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnPlay2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPlay2.ForeColor = System.Drawing.Color.Green;
-            this.btnPlay2.Location = new System.Drawing.Point(445, 6);
-            this.btnPlay2.Name = "btnPlay2";
-            this.btnPlay2.Size = new System.Drawing.Size(132, 36);
-            this.btnPlay2.TabIndex = 15;
-            this.btnPlay2.Text = "Pla&y Second";
-            this.btnPlay2.UseVisualStyleBackColor = true;
+            this.btnEditPresentation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEditPresentation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditPresentation.ForeColor = System.Drawing.Color.DarkRed;
+            this.btnEditPresentation.Location = new System.Drawing.Point(502, 7);
+            this.btnEditPresentation.Name = "btnEditPresentation";
+            this.btnEditPresentation.Size = new System.Drawing.Size(75, 36);
+            this.btnEditPresentation.TabIndex = 2;
+            this.btnEditPresentation.Text = "Edit";
+            this.btnEditPresentation.UseVisualStyleBackColor = true;
+            this.btnEditPresentation.Click += new System.EventHandler(this.btnEditPresentation_Click);
             // 
-            // btnEdit2
+            // btnPlayPresentation
             // 
-            this.btnEdit2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnEdit2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEdit2.ForeColor = System.Drawing.Color.Green;
-            this.btnEdit2.Location = new System.Drawing.Point(322, 6);
-            this.btnEdit2.Name = "btnEdit2";
-            this.btnEdit2.Size = new System.Drawing.Size(117, 36);
-            this.btnEdit2.TabIndex = 14;
-            this.btnEdit2.Text = "E&dit Second";
-            this.btnEdit2.UseVisualStyleBackColor = true;
+            this.btnPlayPresentation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPlayPresentation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPlayPresentation.ForeColor = System.Drawing.Color.DarkRed;
+            this.btnPlayPresentation.Location = new System.Drawing.Point(421, 7);
+            this.btnPlayPresentation.Name = "btnPlayPresentation";
+            this.btnPlayPresentation.Size = new System.Drawing.Size(75, 36);
+            this.btnPlayPresentation.TabIndex = 1;
+            this.btnPlayPresentation.Text = "Play";
+            this.btnPlayPresentation.UseVisualStyleBackColor = true;
+            this.btnPlayPresentation.Click += new System.EventHandler(this.btnPlayPresentation_Click);
             // 
-            // btnPlay1
+            // comboPresentations
             // 
-            this.btnPlay1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnPlay1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPlay1.ForeColor = System.Drawing.Color.Blue;
-            this.btnPlay1.Location = new System.Drawing.Point(190, 6);
-            this.btnPlay1.Name = "btnPlay1";
-            this.btnPlay1.Size = new System.Drawing.Size(102, 36);
-            this.btnPlay1.TabIndex = 13;
-            this.btnPlay1.Text = "&Play Main";
-            this.btnPlay1.UseVisualStyleBackColor = true;
-            // 
-            // btnEdit
-            // 
-            this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEdit.ForeColor = System.Drawing.Color.Blue;
-            this.btnEdit.Location = new System.Drawing.Point(80, 3);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(104, 36);
-            this.btnEdit.TabIndex = 12;
-            this.btnEdit.Text = "&Edit Main";
-            this.btnEdit.UseVisualStyleBackColor = true;
+            this.comboPresentations.BackColor = System.Drawing.Color.White;
+            this.comboPresentations.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboPresentations.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.comboPresentations.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboPresentations.ForeColor = System.Drawing.Color.DarkRed;
+            this.comboPresentations.FormattingEnabled = true;
+            this.comboPresentations.Location = new System.Drawing.Point(12, 14);
+            this.comboPresentations.Name = "comboPresentations";
+            this.comboPresentations.Size = new System.Drawing.Size(403, 23);
+            this.comboPresentations.TabIndex = 0;
             // 
             // pnlMainDisplay
             // 
@@ -334,6 +366,7 @@
             this.pnlFormControls.ResumeLayout(false);
             this.pnlTopControls.ResumeLayout(false);
             this.pnlTopControls.PerformLayout();
+            this.pnlSetupSlides.ResumeLayout(false);
             this.pnlBatteryInfo.ResumeLayout(false);
             this.pnlBatteryInfo.PerformLayout();
             this.pnlPowerpoint.ResumeLayout(false);
@@ -360,14 +393,16 @@
         private System.Windows.Forms.Panel pnlBatteryInfo;
         private System.Windows.Forms.Label lblChargerStatus;
         private System.Windows.Forms.Label lblBatteryPercent;
-        internal System.Windows.Forms.Button btnVideo;
+        internal System.Windows.Forms.Panel pnlPowerpoint;
+        private System.Windows.Forms.Label lblServerIP;
+        private System.Windows.Forms.LinkLabel lblServerIP2;
+        private System.Windows.Forms.Panel pnlSetupSlides;
         internal System.Windows.Forms.Button btnSetupScope;
         internal System.Windows.Forms.Button btnSetupWide;
         internal System.Windows.Forms.Button btnSetupStd;
-        internal System.Windows.Forms.Panel pnlPowerpoint;
-        internal System.Windows.Forms.Button btnPlay2;
-        internal System.Windows.Forms.Button btnEdit2;
-        internal System.Windows.Forms.Button btnPlay1;
-        internal System.Windows.Forms.Button btnEdit;
+        private System.Windows.Forms.Button btnConfigForm;
+        private System.Windows.Forms.Button btnEditPresentation;
+        private System.Windows.Forms.Button btnPlayPresentation;
+        private System.Windows.Forms.ComboBox comboPresentations;
     }
 }

@@ -7,32 +7,49 @@ using System.ComponentModel;
 
 namespace CinemaClockJSON
 {
-    public class ClockAppConfig
+    public class ClockAppConfig : INotifyPropertyChanged
     {
         private string clockColour = "#FFFF00";
+        private string clockFont = "Microsoft Sans Serif";
+        private int clockFontSize = 71;
         private string programPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
         private string profileRoot = "";
         private string webRoot = "";
+        private string cinemaRoot = "";
         private string setupTele = "";
         private string setupWide = "";
         private string setupScope = "";
+        private Boolean showTopBar = true;
 
         public ClockAppConfig()
         {
             this.profileRoot = programPath + "\\profiles";
             this.webRoot = programPath + "\\webroot";
+            this.cinemaRoot = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         }
 
         public string getProgramPath() {
             return this.programPath;
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         public string ClockColour { set { this.clockColour = value; } get { return this.clockColour; } }
+        public string ClockFont { set { this.clockFont = value; } get { return this.clockFont; } }
+        public int ClockFontSize { set { this.clockFontSize = value; } get { return this.clockFontSize; } }
         public string ProfileRoot { set { this.profileRoot = value; } get { return this.profileRoot; } }
+        public string CinemaRoot { set { this.cinemaRoot = value; } get { return this.cinemaRoot; } }
         public string WebRoot { set { this.webRoot = value; } get { return this.webRoot; } }
         public string SetupTele { set { this.setupTele = value; } get { return this.setupTele; } }
         public string SetupWide { set { this.setupWide = value; } get { return this.setupWide; } }
         public string SetupScope { set { this.setupScope = value; } get { return this.setupScope; } }
+        public Boolean ShowTopBar { set { this.showTopBar = value; OnPropertyChanged("ShowTopBar"); } get { return this.showTopBar; } }
     }
     
     public class ClockProfileState
@@ -64,6 +81,18 @@ namespace CinemaClockJSON
         public ClockSettings ProfileSettings { set { this.profileSettings = value; } get { return this.profileSettings; } }
     }
 
+    public class Presentations
+    {
+        private string presentationName = "";
+
+        public Presentations(string presentationName)
+        {
+            this.presentationName = presentationName;
+        }
+
+        public string PresentationName { set { this.presentationName = value; } get { return this.presentationName; } }
+    }
+
     public class ClockSettings : INotifyPropertyChanged
     {
         private string profileName = "Default";
@@ -81,6 +110,9 @@ namespace CinemaClockJSON
         private bool topFontSizeOverride = false;
         private bool bottomFontSizeOverride = false;
         private List<string> presentations = new List<string>();
+
+        public System.IO.FileInfo testPresentation;
+        public string editPresentation;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

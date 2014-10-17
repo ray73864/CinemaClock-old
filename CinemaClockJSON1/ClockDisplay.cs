@@ -1,19 +1,21 @@
-﻿using System;
+﻿using Grapevine;
+using Microsoft.TeamFoundation.Common;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 using System.Reflection;
-using Newtonsoft.Json;
-using Grapevine;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace CinemaClockJSON
 {
@@ -29,10 +31,13 @@ namespace CinemaClockJSON
         public static HttpListener server = new HttpListener();
         public static string startUpPath = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
         BackgroundWorker webServerWorker, restServerWorker;
-        
+
         public ClockDisplay()
         {
             InitializeComponent();
+
+            /* First things first, deal with that pesky windows firewall */
+            firewallConfig(true);
 
             /* Turn the timer off while we prepare everything necessary */
             clockTimer.Enabled = false;
@@ -42,16 +47,104 @@ namespace CinemaClockJSON
             /* Load the default / saved config for the clock itself - profileroot, webroot, etc... */
             defaultAppConfig();
 
+            /* Hide/Display panels if required */
+            pnlFormControls.Visible = clockAppConfig.ShowTopBar;
+            pnlPowerpoint.Visible = clockAppConfig.ShowTopBar;
+            pnlSetupSlides.Visible = clockAppConfig.ShowTopBar;
+            pnlBatteryInfo.Visible = clockAppConfig.ShowTopBar;
+
+            this.KeyUp += new KeyEventHandler(OnKeyPressHandler);
+
             /* Preload all discovered Json Profiles into the necessary class objects */
             preloadJsonProfiles();
 
             /* Run the Web and REST servers */
             runBackgroundWorkers();
 
+            lblServerIP2.Text = "http://" + getListeningIP();
+            
+            LinkLabel.Link link = new LinkLabel.Link();
+            link.LinkData = "http://" + getListeningIP();
+
+            lblServerIP2.Links.Add(link);
+
+            getPresentationPowerpoints();
+
             /* Finally we have finished doing stuff, re-enable the timer to let the clock do stuff! */
             clockTimer.Enabled = true;
 
             pnlClock.Invalidate();
+        }
+
+        private void getPresentationPowerpoints()
+        {
+            comboPresentations.Items.Clear();
+            foreach (String presentation in settings.Presentations)
+            {
+                if (presentation != "") { comboPresentations.Items.Add(presentation.ToString()); }                
+            }
+
+            try
+            {
+                comboPresentations.SelectedIndex = 0;
+                btnPlayPresentation.Enabled = true;
+                btnEditPresentation.Enabled = false;
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                btnPlayPresentation.Enabled = false;
+                btnEditPresentation.Enabled = false;
+            }
+        }
+
+        private void OnKeyPressHandler(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                this.Close();
+            }
+        }
+
+        private void firewallConfig(bool openPorts)
+        {
+            Type NetFwMgrType = Type.GetTypeFromProgID("HNetCfg.FwMgr", false);
+
+            INetFwMgr mgr = (INetFwMgr)Activator.CreateInstance(NetFwMgrType);
+            bool firewallEnabled = mgr.LocalPolicy.CurrentProfile.FirewallEnabled;
+
+            if (firewallEnabled)
+            {
+                INetFwOpenPorts ports;
+                INetFwOpenPort webPort = (INetFwOpenPort)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FWOpenPort"));
+                INetFwOpenPort restPort = (INetFwOpenPort)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FWOpenPort"));
+
+                ports = (INetFwOpenPorts)mgr.LocalPolicy.CurrentProfile.GloballyOpenPorts;
+
+                webPort.Port = 80;
+                webPort.Protocol = NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP;
+                webPort.Name = "CinemaClockJson1";
+                webPort.Enabled = openPorts;
+
+                restPort.Port = 1234;
+                restPort.Protocol = NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP;
+                restPort.Name = "CinemaClockJson1";
+                restPort.Enabled = openPorts;
+
+                if (openPorts)
+                {
+                    ports.Add(webPort);
+                    ports.Add(restPort);
+                }
+                else
+                {
+                    ports.Remove(webPort.Port, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP);
+                    ports.Remove(restPort.Port, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP);
+                }
+            }
+        }
+
+        public string getListeningIP() {
+            return Dns.GetHostEntry(Dns.GetHostName()).AddressList.Where(o => o.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).First().ToString();
         }
 
         private void defaultAppConfig()
@@ -125,8 +218,9 @@ namespace CinemaClockJSON
 
         void restServerWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            clockRestServer.Start();
             clockRestServer.WebRoot = clockAppConfig.WebRoot;
+            clockRestServer.Host = getListeningIP();
+            clockRestServer.Start();
 
             while (clockRestServer.IsListening)
             {
@@ -219,27 +313,6 @@ namespace CinemaClockJSON
             {
                 FontAdjustment fa = new FontAdjustment();
                 gTextFont = fa.GetAdjustedFont(gGraphics, theText, gTextFont, thePanel.Width, thePanel.Height, 80, 50, true);
-                /*
-                measure = gGraphics.MeasureString(theText, gTextFont, thePanel.Width, sf);
-
-                gFontSize = 100;
-                gTextFont = new Font(theFont, gFontSize);
-
-                while (autoFontSize)
-                {
-                    measure = gGraphics.MeasureString(theText, gTextFont, thePanel.Width, sf);
-
-                    if (measure.Width > thePanel.Width || measure.Height > thePanel.Height)
-                    {
-                        gFontSize = gFontSize - 1;
-                        gTextFont = new Font(theFont, gFontSize);
-                    }
-                    else
-                    {
-                        autoFontSize = false;
-                    }
-                }
-                 */
             }
             
             e.Graphics.DrawString(theText, gTextFont, gBrush, gRect, sf);
@@ -259,6 +332,13 @@ namespace CinemaClockJSON
 
         private void clockTimer_Tick(object sender, EventArgs e)
         {
+            pnlFormControls.Visible = clockAppConfig.ShowTopBar;
+            pnlPowerpoint.Visible = clockAppConfig.ShowTopBar;
+            pnlSetupSlides.Visible = clockAppConfig.ShowTopBar;
+            pnlBatteryInfo.Visible = clockAppConfig.ShowTopBar;
+
+            getPresentationPowerpoints();
+
             pnlClock.Invalidate();
             if (settings.TopOnColour1 != settings.TopOffColour1) { pnlTopText.Invalidate(); }
             if (settings.BottomOnColour1 != settings.BottomOffColour1) { pnlBottomText.Invalidate(); }
@@ -268,7 +348,7 @@ namespace CinemaClockJSON
 
         private void pnlClock_Paint(object sender, PaintEventArgs e)
         {
-            PaintThisPanel(pnlClock, e, DateTime.Now.ToString("h:mm tt"), settings.BottomFont, settings.BottomFontSize, false, ColorTranslator.FromHtml(clockAppConfig.ClockColour), ColorTranslator.FromHtml(clockAppConfig.ClockColour));
+            PaintThisPanel(pnlClock, e, DateTime.Now.ToString("h:mm tt"), clockAppConfig.ClockFont, clockAppConfig.ClockFontSize, false, ColorTranslator.FromHtml(clockAppConfig.ClockColour), ColorTranslator.FromHtml(clockAppConfig.ClockColour));
             lblSeconds.Text = DateTime.Now.ToString("ss");
         }
 
@@ -289,6 +369,86 @@ namespace CinemaClockJSON
 
             clockRestServer.Stop();
             server.Stop();
+
+            firewallConfig(false);
+        }
+
+        public void RunPowerpointPresentation(string presentation)
+        {
+            if (File.Exists(presentation))
+            {
+                Process myProcess = Process.Start(presentation);
+                myProcess.EnableRaisingEvents = true;
+                myProcess.Exited += myProcess_Exited;
+            }
+        }
+
+        void myProcess_Exited(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void btnSetupWide_Click(object sender, EventArgs e)
+        {
+            RunPowerpointPresentation(clockAppConfig.SetupWide);
+        }
+
+        private void btnSetupStd_Click(object sender, EventArgs e)
+        {
+            RunPowerpointPresentation(clockAppConfig.SetupTele);
+        }
+
+        private void btnSetupScope_Click(object sender, EventArgs e)
+        {
+            RunPowerpointPresentation(clockAppConfig.SetupScope);
+        }
+
+        private void lblServerIP2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(e.Link.LinkData as string);
+        }
+
+        private void btnConfigForm_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnPlayPresentation_Click(object sender, EventArgs e)
+        {
+            RunPowerpointPresentation(comboPresentations.SelectedItem.ToString());
+        }
+
+        private void btnEditPresentation_Click(object sender, EventArgs e)
+        {
+            String theNewFile;
+            String newExtension = ".ppt";
+            FileInfo oldPowerpoint;
+            String selectedPresentation = comboPresentations.SelectedItem.ToString();
+            settings.editPresentation = selectedPresentation;
+
+            settings.testPresentation = new FileInfo(selectedPresentation);
+            if (File.Exists(selectedPresentation))
+            {
+                theNewFile = settings.testPresentation.DirectoryName + "\\" + Path.GetFileNameWithoutExtension(settings.testPresentation.FullName) + newExtension;
+                oldPowerpoint = new FileInfo(theNewFile);
+
+                if (File.Exists(theNewFile))
+                {
+                    oldPowerpoint.Delete();
+                }
+
+                settings.testPresentation.MoveTo(theNewFile);
+
+                Process myProcess = Process.Start(theNewFile);
+                myProcess.EnableRaisingEvents = true;
+                myProcess.Exited += editPresentation_Exited;
+            }
+        }
+
+        void editPresentation_Exited(object sender, EventArgs e)
+        {
+            settings.testPresentation.MoveTo(settings.editPresentation);
+            settings.editPresentation = "";
         }
     }
 }
